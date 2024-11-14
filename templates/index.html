@@ -6,9 +6,26 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to DataSpeak</h1>
-        <a class="btn" href="{{ url_for('select_db') }}">Select Database</a>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to <span>DataSpeak</span></h1>
+            <p>
+                Leverage the power of Natural Language Processing (NLP) to interact with your relational databases effortlessly.
+                Connect to your database, generate schema, and run complex SQL queries using simple natural language inputs.
+            </p>
+            <a class="btn-primary" href="{{ url_for('select_db') }}">Get Started</a>
+        </div>
     </div>
+
+    <div class="container">
+        <h2>What is DataSpeak?</h2>
+        <p>
+            <strong>DataSpeak</strong> is an NLP-driven database query system that allows you to seamlessly interact with your databases using natural language. The system automatically understands your database structure, generates the schema, and converts your queries into SQL commands for efficient data retrieval and management.
+        </p>
+    </div>
+
+    <footer>
+        <p>© 2024 DataSpeak | Empowering data interaction with NLP</p>
+    </footer>
 </body>
 </html>

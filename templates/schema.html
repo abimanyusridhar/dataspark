@@ -20,17 +20,19 @@
                     </ul>
                 </div>
                 {% endfor %}
-                {% if er_diagram %}
-    <div class="er-diagram">
-        <h3>Entity-Relationship Diagram</h3>
-        <img src="{{ er_diagram }}" alt="ER Diagram">
-    </div>
-{% endif %}
-
             {% else %}
                 <p>No tables found in the database.</p>
             {% endif %}
         </div>
+
+        <!-- Display the ER Diagram if available -->
+        {% if er_diagram %}
+        <div class="er-diagram-container">
+            <h3>Entity-Relationship Diagram</h3>
+            <img src="{{ er_diagram }}" alt="ER Diagram" class="er-diagram">
+        </div>
+        {% endif %}
+        
         <a class="btn" href="/">Back to Home</a>
     </div>
 </body>

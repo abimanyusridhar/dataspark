@@ -8,29 +8,43 @@
 <body>
     <div class="container">
         <h2>Select a Database</h2>
+        
+        <!-- Section for SQLite Database Upload -->
         <form method="POST" enctype="multipart/form-data" class="form-section">
-            <h3>Upload SQLite Database</h3>
-            <label>
-                <input type="radio" name="db_type" value="sqlite" required> SQLite
-            </label>
+            <h3><i class="icon-upload"></i> Upload SQLite Database</h3>
+            <div class="input-radio">
+                <label>
+                    <input type="radio" name="db_type" value="sqlite" required> SQLite
+                </label>
+            </div>
             <input type="file" name="db_file" accept=".db" class="file-input">
-            <button type="submit" class="btn">Upload</button>
+            <button type="submit" class="btn-primary">Upload SQLite Database</button>
         </form>
         
-        <hr>
+        <hr class="divider">
         
+        <!-- Section for MySQL/PostgreSQL Connection -->
         <form method="POST" class="form-section">
-            <h3>Connect to MySQL/PostgreSQL Database</h3>
-            <label>
-                <input type="radio" name="db_type" value="mysql" required> MySQL/PostgreSQL
-            </label>
-            <div class="input-group">
-                <label>Host:</label> <input type="text" name="host" required>
-                <label>User:</label> <input type="text" name="user" required>
-                <label>Password:</label> <input type="password" name="password" required>
-                <label>Database:</label> <input type="text" name="database" required>
+            <h3><i class="icon-database"></i> Connect to MySQL/PostgreSQL Database</h3>
+            <div class="input-radio">
+                <label>
+                    <input type="radio" name="db_type" value="mysql" required> MySQL/PostgreSQL
+                </label>
             </div>
-            <button type="submit" class="btn">Connect</button>
+            <div class="input-group">
+                <label>Host:</label> 
+                <input type="text" name="host" placeholder="e.g., localhost" required>
+                
+                <label>User:</label> 
+                <input type="text" name="user" placeholder="Database username" required>
+                
+                <label>Password:</label> 
+                <input type="password" name="password" placeholder="Database password" required>
+                
+                <label>Database:</label> 
+                <input type="text" name="database" placeholder="Database name" required>
+            </div>
+            <button type="submit" class="btn-primary">Connect to Database</button>
         </form>
     </div>
 </body>
