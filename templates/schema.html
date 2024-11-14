@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Schema</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Database Schema</h2>
+        <div class="schema">
+            {% if tables %}
+                {% for table, columns in tables.items() %}
+                <div class="table-card">
+                    <h3>{{ table }}</h3>
+                    <ul>
+                        {% for column in columns %}
+                        <li>{{ column }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+                {% if er_diagram %}
+    <div class="er-diagram">
+        <h3>Entity-Relationship Diagram</h3>
+        <img src="{{ er_diagram }}" alt="ER Diagram">
+    </div>
+{% endif %}
+
+            {% else %}
+                <p>No tables found in the database.</p>
+            {% endif %}
+        </div>
+        <a class="btn" href="/">Back to Home</a>
+    </div>
+</body>
+</html>

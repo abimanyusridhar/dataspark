@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Database</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Select a Database</h2>
+        <form method="POST" enctype="multipart/form-data" class="form-section">
+            <h3>Upload SQLite Database</h3>
+            <label>
+                <input type="radio" name="db_type" value="sqlite" required> SQLite
+            </label>
+            <input type="file" name="db_file" accept=".db" class="file-input">
+            <button type="submit" class="btn">Upload</button>
+        </form>
+        
+        <hr>
+        
+        <form method="POST" class="form-section">
+            <h3>Connect to MySQL/PostgreSQL Database</h3>
+            <label>
+                <input type="radio" name="db_type" value="mysql" required> MySQL/PostgreSQL
+            </label>
+            <div class="input-group">
+                <label>Host:</label> <input type="text" name="host" required>
+                <label>User:</label> <input type="text" name="user" required>
+                <label>Password:</label> <input type="password" name="password" required>
+                <label>Database:</label> <input type="text" name="database" required>
+            </div>
+            <button type="submit" class="btn">Connect</button>
+        </form>
+    </div>
+</body>
+</html>
