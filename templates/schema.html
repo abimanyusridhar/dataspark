@@ -8,15 +8,21 @@
 <body>
     <div class="container">
         <h2>Database Schema</h2>
+        
+        <!-- Schema Details -->
         <div class="schema">
             {% if tables %}
-                {% for table, columns in tables.items() %}
+                {% for table, details in tables.items() %}
                 <div class="table-card">
                     <h3>{{ table }}</h3>
                     <ul>
-                        {% for column in columns %}
-                        <li>{{ column }}</li>
-                        {% endfor %}
+                        <li><strong>Columns:</strong> {{ details['columns'] | join(', ') }}</li>
+                        <li><strong>Primary Keys:</strong> {{ details['primary_keys'] | join(', ') }}</li>
+                        <li><strong>Foreign Keys:</strong>
+                            {% for fk, ref_table in details['foreign_keys'].items() %}
+                            {{ fk }} → {{ ref_table }}<br>
+                            {% endfor %}
+                        </li>
                     </ul>
                 </div>
                 {% endfor %}
@@ -25,15 +31,46 @@
             {% endif %}
         </div>
 
-        <!-- Display the ER Diagram if available -->
-        {% if er_diagram %}
-        <div class="er-diagram-container">
-            <h3>Entity-Relationship Diagram</h3>
-            <img src="{{ er_diagram }}" alt="ER Diagram" class="er-diagram">
+        <!-- Enhanced Table Relationships -->
+        <div class="relationships">
+            <h3>Table Relationships</h3>
+            {% if relationships %}
+                <div class="relationships-graph">
+                    {% for table, related_tables in relationships.items() %}
+                    <div class="relationship-card">
+                        <h4>{{ table }}</h4>
+                        <ul>
+                            {% for related_table, fk_col in related_tables %}
+                            <li class="relationship-item" title="Foreign Key: {{ fk_col }}">
+                                <span class="table-name">{{ related_table }}</span>
+                                <span class="fk-column">({{ fk_col }})</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No relationships found.</p>
+            {% endif %}
         </div>
-        {% endif %}
-        
+
         <a class="btn" href="/">Back to Home</a>
     </div>
+
+    <!-- JavaScript for Enhanced Interactivity -->
+    <script>
+        // Add hover effect to highlight relationships
+        const relationshipItems = document.querySelectorAll('.relationship-item');
+        relationshipItems.forEach(item => {
+            item.addEventListener('mouseover', function() {
+                this.style.backgroundColor = '#e3f2fd';
+                this.style.cursor = 'pointer';
+            });
+            item.addEventListener('mouseout', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+    </script>
 </body>
 </html>

@@ -65,9 +65,11 @@ def connect_database():
     if selected_db:
         connection_status = connect_to_db(selected_db)
         if connection_status:
-            schema = generate_schema()
-            tables = get_schema_details(schema)
-            return render_template('schema.html', tables=tables)
+            # Get the schema and relationships
+            tables, relationships = get_schema_details(generate_schema())
+            
+            # Pass the tables and relationships separately to the template
+            return render_template('schema.html', tables=tables, relationships=relationships)
         else:
             flash('Failed to connect to the database', 'danger')
             return redirect(url_for('select_db'))
