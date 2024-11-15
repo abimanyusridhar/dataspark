@@ -262,3 +262,76 @@ footer p {
         font-size: 1rem;
     }
 }
+textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    resize: vertical;
+}
+
+.query-result {
+    margin-top: 30px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.query-result table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.query-result th, .query-result td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.query-result th {
+    background-color: #3498db;
+    color: white;
+}
+.query-result {
+    margin-top: 30px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.query-result table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.query-result th, .query-result td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.query-result th {
+    background-color: #3498db;
+    color: white;
+}
+
+.query-result table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.query-result th, .query-result td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.query-result th {
+    background-color: #3498db;
+    color: white;
+    text-align: left;
+}

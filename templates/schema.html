@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Database Schema</title>
+    <title>DataSpeak: Database Schema and Query Executor</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container">
         <h2>Database Schema</h2>
         
-        <!-- Schema Details -->
+        <!-- Display the database schema -->
         <div class="schema">
             {% if tables %}
                 {% for table, details in tables.items() %}
@@ -30,45 +31,57 @@
                 <p>No tables found in the database.</p>
             {% endif %}
         </div>
-
-        <!-- Enhanced Table Relationships -->
         <div class="relationships">
             <h3>Table Relationships</h3>
             {% if relationships %}
-                <div class="relationships-graph">
+                <ul>
                     {% for table, related_tables in relationships.items() %}
-                    <div class="relationship-card">
-                        <h4>{{ table }}</h4>
-                        <ul>
-                            {% for related_table, fk_col in related_tables %}
-                            <li class="relationship-item" title="Foreign Key: {{ fk_col }}">
-                                <span class="table-name">{{ related_table }}</span>
-                                <span class="fk-column">({{ fk_col }})</span>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                    <li><strong>{{ table }}</strong>: 
+                        {% for related_table, fk_col in related_tables %}
+                        {{ related_table }} ({{ fk_col }}),
+                        {% endfor %}
+                    </li>
                     {% endfor %}
-                </div>
-            {% else %}
-                <p>No relationships found.</p>
+                </ul>
             {% endif %}
         </div>
+
+        <hr class="divider">
+
+        <!-- Command Line Interface for SQL Queries -->
+        <h3>Execute SQL Query</h3>
+        <div class="query-container">
+            <textarea id="sql-query" rows="6" placeholder="Write your SQL query here..." autofocus></textarea>
+            <button id="run-query" class="btn">Run Query</button>
+        </div>
+
+        <!-- Display query results dynamically -->
+        <div id="query-result" class="query-result"></div>
 
         <a class="btn" href="/">Back to Home</a>
     </div>
 
-    <!-- JavaScript for Enhanced Interactivity -->
+    <!-- AJAX and JavaScript for dynamic query execution -->
     <script>
-        // Add hover effect to highlight relationships
-        const relationshipItems = document.querySelectorAll('.relationship-item');
-        relationshipItems.forEach(item => {
-            item.addEventListener('mouseover', function() {
-                this.style.backgroundColor = '#e3f2fd';
-                this.style.cursor = 'pointer';
-            });
-            item.addEventListener('mouseout', function() {
-                this.style.backgroundColor = '';
+        $(document).ready(function() {
+            $('#run-query').on('click', function() {
+                const query = $('#sql-query').val().trim();
+                if (query === '') {
+                    alert('Please enter a query.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/execute_query',
+                    type: 'POST',
+                    data: { sql_query: query },
+                    success: function(response) {
+                        $('#query-result').html(response);
+                    },
+                    error: function() {
+                        $('#query-result').html('<p>Error executing query.</p>');
+                    }
+                });
             });
         });
     </script>
