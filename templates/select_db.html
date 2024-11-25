@@ -2,50 +2,245 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select Database</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb; /* Best white shade */
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: #ffffff; /* White shade for card */
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #2d3748; /* Neutral dark shade */
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: #4a5568; /* Neutral mid-grey */
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* Card Styling */
+        .card {
+            background: #f8fafc; /* Off-white for contrast */
+            border: 1px solid #e2e8f0; /* Light grey border */
+            border-radius: 8px;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Soft shadow */
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Form Inputs */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #718096; /* Subtle grey */
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #cbd5e0; /* Soft grey border */
+            border-radius: 6px;
+            background: #edf2f7; /* Light grey background */
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #63b3ed; /* Light blue focus */
+            outline: none;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .radio-group input {
+            margin-right: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-block;
+            background: #63b3ed; /* Light blue */
+            color: #fff;
+            font-weight: bold;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: #3182ce; /* Deeper blue */
+            transform: translateY(-2px);
+        }
+
+        /* Divider */
+        .divider {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2rem 0;
+        }
+
+        /* Icons */
+        .icon {
+            font-size: 1.5rem;
+            color: #63b3ed;
+            margin-right: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .card {
+                padding: 1.2rem;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .input-group input {
+                padding: 0.6rem;
+            }
+
+            .btn-primary {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h2>Select a Database</h2>
         
-        <!-- Section for SQLite Database Upload -->
-        <form method="POST" enctype="multipart/form-data" class="form-section">
-            <h3><i class="icon-upload"></i> Upload SQLite Database</h3>
-            <div class="input-radio">
-                <label>
-                    <input type="radio" name="db_type" value="sqlite" required> SQLite
-                </label>
-            </div>
-            <input type="file" name="db_file" accept=".db" class="file-input">
-            <button type="submit" class="btn-primary">Upload SQLite Database</button>
-        </form>
-        
+        <!-- SQLite Card -->
+        <div class="card">
+            <h3><span class="icon">📤</span> Upload SQLite Database</h3>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="db_type" value="sqlite" required> SQLite
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label for="db_file">Choose SQLite File:</label>
+                    <input type="file" name="db_file" id="db_file" accept=".db" required>
+                </div>
+                <button type="submit" class="btn-primary">Upload SQLite Database</button>
+            </form>
+        </div>
+
         <hr class="divider">
-        
-        <!-- Section for MySQL/PostgreSQL Connection -->
-        <form method="POST" class="form-section">
-            <h3><i class="icon-database"></i> Connect to MySQL/PostgreSQL Database</h3>
-            <div class="input-radio">
-                <label>
-                    <input type="radio" name="db_type" value="mysql" required> MySQL/PostgreSQL
-                </label>
-            </div>
-            <div class="input-group">
-                <label>Host:</label> 
-                <input type="text" name="host" placeholder="e.g., localhost" required>
-                
-                <label>User:</label> 
-                <input type="text" name="user" placeholder="Database username" required>
-                
-                <label>Password:</label> 
-                <input type="password" name="password" placeholder="Database password" required>
-                
-                <label>Database:</label> 
-                <input type="text" name="database" placeholder="Database name" required>
-            </div>
-            <button type="submit" class="btn-primary">Connect to Database</button>
-        </form>
+
+        <!-- MySQL/PostgreSQL Card -->
+        <div class="card">
+            <h3><span class="icon">💾</span> Connect to MySQL/PostgreSQL Database</h3>
+            <form method="POST">
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="db_type" value="mysql" required> MySQL/PostgreSQL
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label for="host">Host:</label>
+                    <input type="text" id="host" name="host" placeholder="e.g., localhost" required>
+                </div>
+                <div class="input-group">
+                    <label for="user">User:</label>
+                    <input type="text" id="user" name="user" placeholder="Database username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Database password" required>
+                </div>
+                <div class="input-group">
+                    <label for="database">Database Name:</label>
+                    <input type="text" id="database" name="database" placeholder="Database name" required>
+                </div>
+                <button type="submit" class="btn-primary">Connect to Database</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

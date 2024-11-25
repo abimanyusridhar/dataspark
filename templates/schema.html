@@ -2,88 +2,261 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>DataSpeak: Database Schema and Query Executor</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataSpeak: Database Schema Viewer</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #ffffff, #fafafa);
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Header Section */
+        .header {
+            background: linear-gradient(45deg, #4e73df, #2c3e50);
+            color: #ffffff;
+            text-align: center;
+            padding: 2rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 1.5rem;
+            box-sizing: border-box;
+        }
+
+        /* Section Titles */
+        h2 {
+            font-size: 2rem;
+            color: #ffb74d;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid #ffb74d;
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+
+        /* Schema and Relationships Section */
+        .schema-view, .relationships-view {
+            background: #ffffff;
+            color: #333333;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            animation: slideUp 1s ease-out;
+        }
+
+        /* Table Cards */
+        .schema-list, .relationships-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .table-card, .relationship-card {
+            background: #f8f9fa;
+            border: 1px solid #e3e6eb;
+            border-radius: 10px;
+            padding: 1.5rem;
+            flex: 1 1 300px;
+            max-width: 350px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .table-card:hover, .relationship-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .table-card h3, .relationship-card h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        ul li strong {
+            color: #2a4d70;
+        }
+
+        ul li em {
+            color: #0056b3;
+            font-style: normal;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-block;
+            background: #3a6ea5;
+            color: #ffffff;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #2a4d70;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #34495e;
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .schema-list, .relationships-grid {
+                flex-direction: column;
+            }
+
+            .table-card, .relationship-card {
+                flex: 1 1 100%;
+                max-width: none;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Database Schema</h2>
-        
-        <!-- Display the database schema -->
-        <div class="schema">
+    <!-- Header Section -->
+    <!-- <header class="header">
+        <h1>DataSpeak: Database Schema Viewer</h1>
+    </header> -->
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Schema View Section -->
+        <section class="schema-view">
+            <h2>Database Schema</h2>
             {% if tables %}
+            <div class="schema-list">
                 {% for table, details in tables.items() %}
                 <div class="table-card">
-                    <h3>{{ table }}</h3>
+                    <h3>Table: {{ table }}</h3>
                     <ul>
                         <li><strong>Columns:</strong> {{ details['columns'] | join(', ') }}</li>
                         <li><strong>Primary Keys:</strong> {{ details['primary_keys'] | join(', ') }}</li>
-                        <li><strong>Foreign Keys:</strong>
-                            {% for fk, ref_table in details['foreign_keys'].items() %}
-                            {{ fk }} → {{ ref_table }}<br>
-                            {% endfor %}
+                        <li><strong>Foreign Keys:</strong> 
+                            {% if details['foreign_keys'] %}
+                                {% for fk, ref_table in details['foreign_keys'].items() %}
+                                {{ fk }} → {{ ref_table }}<br>
+                                {% endfor %}
+                            {% else %}
+                                None
+                            {% endif %}
                         </li>
                     </ul>
                 </div>
                 {% endfor %}
+            </div>
             {% else %}
-                <p>No tables found in the database.</p>
+            <p>No tables found in the database.</p>
             {% endif %}
-        </div>
-        <div class="relationships">
-            <h3>Table Relationships</h3>
+        </section>
+
+        <!-- Relationships View Section -->
+        <section class="relationships-view">
+            <h2>Table Relationships</h2>
             {% if relationships %}
-                <ul>
-                    {% for table, related_tables in relationships.items() %}
-                    <li><strong>{{ table }}</strong>: 
+            <div class="relationships-grid">
+                {% for table, related_tables in relationships.items() %}
+                <div class="relationship-card">
+                    <h3>Table: {{ table }}</h3>
+                    {% if related_tables %}
+                    <ul>
                         {% for related_table, fk_col in related_tables %}
-                        {{ related_table }} ({{ fk_col }}),
+                        <li><strong>{{ fk_col }}</strong> → <em>{{ related_table }}</em></li>
                         {% endfor %}
-                    </li>
-                    {% endfor %}
-                </ul>
+                    </ul>
+                    {% else %}
+                    <p>No related tables.</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No relationships found in the database.</p>
             {% endif %}
-        </div>
+        </section>
 
-        <hr class="divider">
+        <!-- Navigation Buttons -->
+        <a href="/" class="btn-primary">Back to Home</a>
+        <a href="{{ url_for('nlp_query') }}" class="btn-primary">Proceed to NLP Query</a>
+    </main>
 
-        <!-- Command Line Interface for SQL Queries -->
-        <h3>Execute SQL Query</h3>
-        <div class="query-container">
-            <textarea id="sql-query" rows="6" placeholder="Write your SQL query here..." autofocus></textarea>
-            <button id="run-query" class="btn">Run Query</button>
-        </div>
-
-        <!-- Display query results dynamically -->
-        <div id="query-result" class="query-result"></div>
-
-        <a class="btn" href="/">Back to Home</a>
-    </div>
-
-    <!-- AJAX and JavaScript for dynamic query execution -->
-    <script>
-        $(document).ready(function() {
-            $('#run-query').on('click', function() {
-                const query = $('#sql-query').val().trim();
-                if (query === '') {
-                    alert('Please enter a query.');
-                    return;
-                }
-
-                $.ajax({
-                    url: '/execute_query',
-                    type: 'POST',
-                    data: { sql_query: query },
-                    success: function(response) {
-                        $('#query-result').html(response);
-                    },
-                    error: function() {
-                        $('#query-result').html('<p>Error executing query.</p>');
-                    }
-                });
-            });
-        });
-    </script>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 DataSpeak | Database Schema Viewer</p>
+    </footer>
 </body>
 </html>
